@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Informações sobre o {{ autor.nome }} {% endblock %}
+
+{% block content %}
+    <div class="container py-5"> 
+        <div class="row justify-content-center">
+            <div class="col-md-8"> 
+                <div class="card shadow-lg rounded-3"> 
+                    <div class="card-header bg-dark text-white text-center py-4"> 
+                        <h2 class="m-0">{{ autor.nome }}</h2>
+                        <p class="lead">Informações do Autor</p>
+                    </div>
+                    <div class="card-body">
+                    
+                        <div class="mb-4">
+                            <h5><strong>Livros:</strong></h5>
+                            {% if autor.livros.all %}
+                                <ul class="list-group">
+                                    {% for livro in autor.livros.all %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            {{ livro.titulo }}
+                                            <a href="{% url 'informacoes_livro' livro.pk %}" class="btn btn-link btn-sm text-decoration-none">
+                                                <i class="bi bi-info-circle"></i>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="text-muted">Este autor ainda não tem livros cadastrados.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <a href="{% url 'cadastrar_livro_autor' autor.id %}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle"></i> Adicionar Novo Livro
+                        </a>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'listar_autores' %}" class="btn btn-outline-primary btn-sm">
+                            Voltar para a lista de autores
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

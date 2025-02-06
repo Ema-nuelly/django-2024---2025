@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Lista de livros {% endblock %}
+
+{% block content %}
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">Todos os livros</h2>
+    <ul class="list-group p-3">
+        {% for livro in livros %}
+        <li class="list-group-item">
+          <div class="row align-items-center">
+  
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
+              <strong>{{ livro.titulo }}</strong>
+            </div>
+  
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
+              {{ livro.autor.nome }}
+            </div>
+  
+            <div class="col-12 col-md-4 d-flex flex-column flex-md-row gap-2 justify-content-lg-end justify-content-md-start">
+              <a href="{% url 'editar_livro' livro.pk %}" class="btn btn-sm btn-success rounded-2">
+                Editar
+              </a>
+              <a href="{% url 'excluir_livro' livro.pk %}" class="btn btn-sm btn-danger rounded-2" onclick="return confirm('Tem certeza que deseja excluir o livro?')">
+                Excluir
+              </a>
+              <a href="{% url 'informacoes_livro' livro.pk %}" class="btn btn-sm btn-primary rounded-2">
+                Mais informações
+              </a>
+            </div>
+  
+          </div>
+        </li>
+        {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

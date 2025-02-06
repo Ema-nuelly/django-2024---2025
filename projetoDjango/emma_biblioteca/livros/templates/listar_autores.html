@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Autores{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Autores</h2>
+    <ul class="list-group">
+        {% for autor in autores %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ autor.nome }}
+                <form action="{% url 'deletar_autor' autor.id %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja deletar {{ autor.nome }}?')">
+                        Excluir
+                    </button>
+                    <a href="{% url 'autores_informacoes' autor.id %}" class="btn btn-primary btn-sm">Ver detalhes</a>
+                </form>
+            </li>  
+        {% empty %}
+            <li class="list-group-item text-muted">Nenhum autor encontrado.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

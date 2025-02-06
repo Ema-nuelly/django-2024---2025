@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Informações do Livro {% endblock%}
+
+{% block content %}
+
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <h2> Informações do Livro </h2>
+
+        <p> <strong>Título:</strong> {{ livro.titulo }} </p>
+        <p> <strong>Autor:</strong> {{ livro.autor }} </p>
+        <p> <strong>Quantidade Disponível:</strong> {{ livro.quantidade_disponivel }} </p>
+        <p> <strong>Avaliação:</strong> {{ livro.avaliacao }} </p>
+        <p> <strong>Data de Publicação:</strong> {{ livro.data_de_publicacao }} </p>
+
+
+        <a href="{% url 'editar_livro' livro.pk %}" class="btn btn-sm btn-primary"> 
+            Editar Livro
+        </a>
+    </div>
+    
+
+
+    
+
+{% endblock%}

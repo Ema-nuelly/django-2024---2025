@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %} Cadastrar Novo Autor {% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center"> 
+    <h2 class="mb-4"> Cadastrar NOVO Autor </h2>
+    <p class="opacity-75 text-center pb-3 smaller">Em seguida, vá a página de <span ><a href="/cadastrar_livro/" class="text-decoration-underline text-success fw-bold ">cadastro de livros</a></span>, busque pelo novo autor, e adicione seus livros</p>
+
+    <form method="post" class="mb-4 form-control card-body p-4 w-75 d-flex flex-column ">
+        {% csrf_token %}
+        
+        <div class="row w-100">
+            <!-- Author Field -->
+            <div class="col-md-6 mb-3">
+                <label for="nome" class="form-label p-2"> Nome do Autor </label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    name="nome" 
+                    value="{{ form.nome.value|default_if_none:'' }}" 
+                    placeholder="Digite o nome do autor"
+                />
+                {% for error in form.nome.errors %}
+                    <div class="text-danger p-2">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-sm btn-success w-25 ml-auto"> Salvar </button>
+        </div>
+
+        <a href="{% url 'listar_autores' %}" class="text-success fw-bold d-flex justify-content-end mt-2 text-decoration-none">Ver todos os autores</a>
+    </form>
+</div>
+{% endblock %}

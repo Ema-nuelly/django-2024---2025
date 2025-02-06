@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %} Cadastrar Novo Livro para {{ autor.nome }} {% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center"> 
+    <h2 class="mb-4">Cadastrar NOVO Livro para {{ autor.nome }}</h2>
+
+    <form method="post" class="mb-4 form-control card-body p-4 w-75 d-flex flex-column">
+        {% csrf_token %}
+        <input type="hidden" name="autor" value="{{ autor.id }}">
+        
+        <div class="row w-100">
+            <div class="col-md-6 mb-3">
+                <label for="titulo" class="form-label p-2">Título</label>
+                <input type="text" class="form-control" name="titulo" required>
+
+                <label for="quantidade_disponivel" class="form-label p-2">Quantidade Disponível</label>
+                <input type="number" class="form-control" name="quantidade_disponivel" required min="0">
+
+                <label for="avaliacao" class="form-label p-2">Avaliação</label>
+                <input type="number" class="form-control" name="avaliacao" step="0.1" min="0" max="5">
+
+                <label for="data_de_publicacao" class="form-label p-2">Data de Publicação</label>
+                <input type="date" class="form-control" name="data_de_publicacao">
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-end gap-2">
+            <a href="{% url 'autores_informacoes' autor.id %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-success">Salvar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
