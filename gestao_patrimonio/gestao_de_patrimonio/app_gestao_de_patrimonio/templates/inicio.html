@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Início{% endblock %}
+
+{% block content %}
+    <h3>categorias: 
+        {% for categoria in categorias %}
+            {{ categoria.id }} - {{ categoria.nome }}
+        {% endfor %}</h3>
+{% endblock %}
