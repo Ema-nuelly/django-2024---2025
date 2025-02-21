@@ -4,10 +4,10 @@ from django.db import models
 class Bens (models.Model):
     id  = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100)
-    categoria_id = models.ForeignKey('Categoria', on_delete=models.CASCADE)
-    fornecedor_id = models.ForeignKey('Fornecedor', on_delete=models.CASCADE)
-    setor_id = models.ForeignKey('Setores', on_delete=models.CASCADE)
-    data_aquisicao = models.DateField(max_length=100)
+    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
+    fornecedor = models.ForeignKey('Fornecedor', on_delete=models.CASCADE)
+    setor = models.ForeignKey('Setores', null=True, on_delete=models.SET_NULL, blank=True)
+    data_aquisicao = models.DateField
 
     def __str__(self):
         return self.nome
@@ -26,7 +26,7 @@ class Fornecedor (models.Model):
     telefone = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     endereco = models.CharField(max_length=100)
-    inicio_contrato = models.DateField(max_length=100)
+    inicio_contrato = models.DateField
 
     def __str__(self):
         return self.nome
@@ -34,6 +34,30 @@ class Fornecedor (models.Model):
 class Setores (models.Model):
     id  = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=100)
+    
 
+    def __str__(self):
+        return self.nome
+
+class Movimentacao (models.Model):
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=100)
+    data_movimentacao = models.DateField
+    tipo_movimentacao = models.CharField(max_length=20, choices=[
+        ('Entrada', 'Entrada'),
+        ('Saida', 'Saida'),
+        ('Transferencia', 'Transferencia')]
+        )
+    bem_id = models.ForeignKey('Bens', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nome
+
+class Localizacao (models.Model):
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=100)
+    setor = models.ForeignKey('Setores', on_delete=models.SET_NULL, blank=True, null=True)
+    bem = models.ForeignKey('Bens', on_delete=models.CASCADE)
+    
     def __str__(self):
         return self.nome
