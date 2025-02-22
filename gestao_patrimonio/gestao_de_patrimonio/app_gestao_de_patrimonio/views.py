@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Categoria
+from .models import Categoria, PerfilUsuario
 from django.http import HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .forms import FormInscrevase, AtualizarPerfil
+from .forms import FormInscrevase, AtualizarPerfil, SetorF
 # Create your views here.
 @login_required
 def inicio(request):
@@ -33,15 +33,21 @@ def logout_view(request):
 
 @login_required
 def perfil(request):
+    user_profile, created = PerfilUsuario.objects.get_or_create(user=request.user)
+
     if request.method == 'POST':
-        form = AtualizarPerfil(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
+        perfil_form = AtualizarPerfil(request.POST, instance=request.user)
+        setor_form = SetorF(request.POST, instance=user_profile)
+
+        if perfil_form.is_valid() and setor_form.is_valid():
+            perfil_form.save()
+            setor_form.save()
             return redirect('perfil')
     else:
-        form = AtualizarPerfil(instance=request.user)
-    return render(request, 'usuario/perfil.html', {'form': form})
+        perfil_form = AtualizarPerfil(instance=request.user)
+        setor_form = SetorF(instance=user_profile)
 
+    return render(request, 'usuario/perfil.html', {'perfil_form': perfil_form, 'setor_form': setor_form})
 def inscrevase(request):
     if request.method == 'POST':
         form = FormInscrevase(request.POST)

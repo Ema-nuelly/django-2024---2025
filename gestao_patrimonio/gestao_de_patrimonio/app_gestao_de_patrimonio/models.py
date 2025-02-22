@@ -1,4 +1,7 @@
 from django.db import models
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 # Create your models here.
 class Bens (models.Model):
@@ -61,3 +64,14 @@ class Localizacao (models.Model):
     
     def __str__(self):
         return self.nome
+
+class PerfilUsuario(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    setor = models.ForeignKey(Setores, on_delete=models.SET_NULL, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+@receiver(post_save, sender=User)    
+def criar_perfil_usuario(instance, created, **kwargs):
+    if created:
+        PerfilUsuario.objects.create(user=instance)

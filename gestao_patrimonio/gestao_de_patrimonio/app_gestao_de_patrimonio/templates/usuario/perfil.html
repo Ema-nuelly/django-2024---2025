@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+<h3>Usuario: {{request.user}}</h3>
+<h4>Último acesso em: {{request.user.last_login}}</h4>
+<h4>Setor: {{request.user.perfil.setor}}
+</h4>
+
+<h4>Editar perfil</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ setor_form.as_p }}
+    <button type="submit" class="btn btn-primary">Salvar</button>
+{%endblock%}
