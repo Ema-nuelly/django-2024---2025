@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Categoria
 from django.http import HttpResponse
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .forms import FormInscrevase, AtualizarPerfil
 # Create your views here.
@@ -26,8 +27,10 @@ def movimentacoes(request):
 def localizacoes(request):
     return render(request, 'localizacoes.html')
 
-def logout(request):
-    return render(request, 'logout.html')
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
 @login_required
 def perfil(request):
     if request.method == 'POST':
